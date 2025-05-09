@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../utilities/UserContext';
-import apiUrl from '../config';
 import { 
   getMileageData, 
   updateMileage, 

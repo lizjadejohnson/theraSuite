@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../utilities/UserContext';
 import { getMileageTotals, deleteMileageHistory } from '../../utilities/mileageUtils';
-import apiUrl from '../config';
 
 const MileageTotals = () => {
   const { user } = useContext(UserContext);
