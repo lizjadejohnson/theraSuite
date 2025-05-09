@@ -69,7 +69,7 @@ const createUser = async (req, res) => {
     }
 
     // Ensure the fields are of the correct type:
-    if (typeof typeof password !== 'string' || typeof email !== 'string') {
+    if (typeof password !== 'string' || typeof email !== 'string') {
         console.error('Invalid field types:', { password, email });
         return res.status(400).json({ message: 'Email and password must be strings' });
     }
@@ -139,7 +139,6 @@ const updateUser = async (req, res) => {
     const updateData = {};
 
     //Add data to the update object:
-
     if (email) updateData.email = email.toLowerCase();
 
     // Handle password change with extra care:
@@ -237,7 +236,7 @@ const loginUser = async (req, res) => {
             sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Use 'Lax' for local development
             maxAge: 24 * 60 * 60 * 1000
         });
-        //Return entire user data except the password:
+        //Return user data except the password:
         res.json({ message: 'Login successful', user: { _id: user._id, email: user.email } });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error', error: error.message });
