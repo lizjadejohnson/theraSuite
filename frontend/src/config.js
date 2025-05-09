@@ -1,5 +1,5 @@
 //In development, apiUrl will be our backend server: http://localhost:3000/api
-//In production, the apiUrl will be our Render URL https://react-master-template-backend.onrender.com/api
+//In production, the apiUrl will be our Render URL https://therasuite.onrender.com/api
 
 
 let apiUrl = '';
