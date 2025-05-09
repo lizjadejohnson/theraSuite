@@ -7,7 +7,7 @@ let apiUrl = '';
 if (process.env.NODE_ENV === 'development') {
   apiUrl = 'http://localhost:3000/api';
 } else if (process.env.NODE_ENV === 'production') {
-  apiUrl = 'https://react-auth-template.onrender.com/api';
+  apiUrl = 'https://therasuite.onrender.com/api';
 }
 
 export default apiUrl;
