@@ -52,7 +52,7 @@ const Navbar = () => {
                     <li className="dropdown">
                         <a href="#" className="dropdown-toggle">Account</a>
                         <ul className="dropdown-menu">
-                            <li><Link to="/edit-profile">{user.username}: Edit Profile</Link></li>
+                            <li><Link to="/edit-profile">Edit Profile</Link></li>
                             <li><a href="/logout" onClick={handleLogout}>Logout</a></li>
                         </ul>
                     </li>
@@ -84,7 +84,7 @@ const Navbar = () => {
                     <a href="#" className="dropdown-toggle">Content</a>
                     <ul className="dropdown-menu">
                         <li><Link to="/notes">Notes</Link></li>
-                        <li><a href="#">Content Link 2</a></li>
+                        <li><Link to="/mileage">Mileage Tracker</Link></li>
                         <li><a href="#">Content Link 3</a></li>
                     </ul>
                 </li>

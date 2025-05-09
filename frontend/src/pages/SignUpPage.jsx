@@ -4,10 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import Spinner from '../components/Spinner';
 
 const SignUpPage = () => {
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [dob, setDob] = useState('');
   const [message, setMessage] = useState('');
 
   const { user, signup } = useContext(UserContext);
@@ -18,7 +16,7 @@ const SignUpPage = () => {
   const handleSignUp = async (event) => {
     event.preventDefault();
     try {
-      await signup(username, email, password, dob);
+      await signup(email, password);
       setMessage('Signup successful! You can now log in.');
       //Redirects to home after successful login
       navigate('/');
@@ -41,20 +39,12 @@ const SignUpPage = () => {
       <h2>Sign Up</h2>
       <form onSubmit={handleSignUp}>
         <div>
-          <label>Username:</label>
-          <input type="text" value={username} onChange={(event) => setUsername(event.target.value)} required />
-        </div>
-        <div>
           <label>Email:</label>
           <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
         </div>
         <div>
           <label>Password:</label>
           <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} required />
-        </div>
-        <div>
-          <label>Date of Birth:</label>
-          <input type="date" onChange={(event) => setDob(event.target.value)} required />
         </div>
         
         <button type="submit">Sign Up</button>

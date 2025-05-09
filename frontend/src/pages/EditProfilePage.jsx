@@ -4,20 +4,16 @@ import Spinner from '../components/Spinner';
 
 const EditProfilePage = () => {
     const { user, updateUser, deleteUser } = useContext(UserContext);
-    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [dob, setDob] = useState('');
     const [message, setMessage] = useState('');
 
 
     useEffect(() => {
         // Pre-fill the form with the current user data
         if (user) {
-            setUsername(user.username || '');
             setEmail(user.email || '');
-            setDob(user.dob || '');
         }
     }, [user]);
 
@@ -30,7 +26,7 @@ const EditProfilePage = () => {
             return;
         }
         try {
-            await updateUser({ username, email, password, dob });
+            await updateUser({ email, password });
             setMessage('Profile updated successfully!');
             setTimeout(() => setMessage(''), 5000);
         } catch (error) {
@@ -68,15 +64,6 @@ const EditProfilePage = () => {
             <h2>Edit Profile</h2>
             <form onSubmit={handleUpdate}>
                 <div>
-                    <label>Username:</label>
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
                     <label>Email:</label>
                     <input
                         type="email"
@@ -99,14 +86,6 @@ const EditProfilePage = () => {
                         type="password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label>Date of Birth:</label>
-                    <input
-                        type="date"
-                        value={dob}
-                        onChange={(e) => setDob(e.target.value)}
                     />
                 </div>
                 

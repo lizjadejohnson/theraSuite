@@ -8,6 +8,7 @@ const cors = require("cors");
 
 //Pulls Mongoose connection into main application
 const connectToDb = require("./config/connectToDb")
+const { startMileageScheduler } = require('./utils/mileageScheduler');
 
 const app = express()
 
@@ -19,7 +20,7 @@ const PORT = process.env.PORT || 3000;
 const usersRoutes = require('./routes/usersRoutes.js');
 const notesRoutes = require('./routes/notesRoutes.js');
 const todosRoutes = require('./routes/todosRoutes.js');
-
+const mileageRoutes = require('./routes/mileageRoutes.js');
 
 
 /////////////////////////////////////////////////////////////////////////
@@ -77,7 +78,7 @@ connectToDb()
 app.use("/api/users", usersRoutes);
 app.use("/api/notes", notesRoutes);
 app.use("/api/todos", todosRoutes);
-
+app.use("/api/mileage", mileageRoutes);
 
 
 // Serve static files from the 'public' directory
@@ -88,9 +89,11 @@ app.get("*", (req, res) => {
 });
 
 
-// }
+
   
 // -------------------------------- [Databse Connection]------------------------------
 app.listen(PORT, () => {
     console.log(`Express server listening on port number ${PORT}`)
+    // Start the mileage scheduler after server is up
+    startMileageScheduler();
 })

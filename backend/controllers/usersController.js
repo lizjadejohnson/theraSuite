@@ -59,25 +59,21 @@ const fetchMe = async (req, res) => {
 const createUser = async (req, res) => {
 
     //1. Get data from req.body:
-    const {username, password, email, dob} = req.body
+    const {password, email} = req.body
     console.log("Received request body");
 
     // Check if all required fields are actually *present*:
-    if (!username || !password || !email || !dob) {
-        console.error('Missing required fields:', { username, password, email, dob });
-        return res.status(400).json({ message: 'Username, password, email, and date of birth are all required' });
+    if (!password || !email) {
+        console.error('Missing required fields:', { password, email });
+        return res.status(400).json({ message: 'An email and password are required' });
     }
 
     // Ensure the fields are of the correct type:
-    if (typeof username !== 'string' || typeof password !== 'string' || typeof email !== 'string') {
-        console.error('Invalid field types:', { username, password, email });
-        return res.status(400).json({ message: 'Username, password, and email must be strings' });
+    if (typeof typeof password !== 'string' || typeof email !== 'string') {
+        console.error('Invalid field types:', { password, email });
+        return res.status(400).json({ message: 'Email and password must be strings' });
     }
 
-    //Username must be 3-20 characters long
-    if (username.length < 3 || username.length > 20) {
-        return res.status(400).json({ message: 'Username must be 3-20 characters long' });
-    }
 
     //Check for password quality:
     if (password.length < 8 || !/\d/.test(password) || !/[A-Z]/.test(password)) {
@@ -86,19 +82,17 @@ const createUser = async (req, res) => {
 
 
     try {
-        //Check for an existing user:
-        const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+        //Check for an existing user: Need to use { email: email } for Mongoose!
+        const existingUser = await User.findOne({ email: email.toLowerCase() });
         if (existingUser) {
-            console.log("Username or email already exists.");
-            return res.status(400).json({ message: 'Username or email already exists' });
+            console.log("Email already exists.");
+            return res.status(400).json({ message: 'Email already exists' });
         }
         
         // Create the new user:
         const user = new User({
-            username: username.toLowerCase(),
             email: email.toLowerCase(),
             password: password, // Raw password here, will be hashed in pre-save hook
-            dob
         });
 
         await user.save();
@@ -117,7 +111,7 @@ const createUser = async (req, res) => {
         });
         
         // Respond with new copy of user (excluding the password):
-        res.status(201).json({ user: { _id: user._id, username: user.username, email: user.email, dob: user.dob } });
+        res.status(201).json({ user: { _id: user._id, email: user.email } });
 
     } catch (error) {
         console.error('Signup error:', error);
@@ -131,14 +125,11 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
 
     const userId = req.user._id;  // Get id off the authenticated token
-    const { username, password, email, dob } = req.body;
+    const { password, email } = req.body;
 
     // Validate input types upfront:
     if (email && typeof email !== 'string') {
         return res.status(400).json({ message: 'Invalid email format' });
-    }
-    if (username && typeof username !== 'string') {
-        return res.status(400).json({ message: 'Invalid username format' });
     }
     if (password && typeof password !== 'string') {
         return res.status(400).json({ message: 'Invalid password format' });
@@ -148,12 +139,6 @@ const updateUser = async (req, res) => {
     const updateData = {};
 
     //Add data to the update object:
-    if (username) {
-        if (username.length < 3 || username.length > 20) {
-            return res.status(400).json({ message: 'Username must be 3-20 characters long' });
-        }
-        updateData.username = username;
-    }
 
     if (email) updateData.email = email.toLowerCase();
 
@@ -165,11 +150,6 @@ const updateUser = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         updateData.password = await bcrypt.hash(password, salt);
     }
-
-    if (dob) {
-        updateData.dob = dob;
-    }
-
 
     try {
         // Ensure new: true to return the updated document
@@ -258,7 +238,7 @@ const loginUser = async (req, res) => {
             maxAge: 24 * 60 * 60 * 1000
         });
         //Return entire user data except the password:
-        res.json({ message: 'Login successful', user: { _id: user._id, username: user.username, email: user.email, dob: user.dob } });
+        res.json({ message: 'Login successful', user: { _id: user._id, email: user.email } });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error', error: error.message });
     }

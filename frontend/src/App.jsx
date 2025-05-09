@@ -7,7 +7,7 @@ import SignUpPage from './pages/SignUpPage';
 import AboutPage from './pages/AboutPage';
 import EditProfilePage from './pages/EditProfilePage';
 import HeroImage from './components/HeroImage';
-
+import MileagePage from './pages/MileagePage';
 
 function App() {
 
@@ -30,6 +30,7 @@ function App() {
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/edit-profile" element={<EditProfilePage />} />
+              <Route path="/mileage" element={<MileagePage />} />
             </Routes>
           </div>
       </div>
