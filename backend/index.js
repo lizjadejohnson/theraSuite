@@ -37,7 +37,7 @@ app.use(cookieParser());
 // Adjusting CORS settings for development and production environments (in development we need both our backend and frontend servers!)
 //This is because when developing live in localhost, we are using a proxy in vite config so we can see updates without having to rebuild the frontend all the time.
 const isProduction = process.env.NODE_ENV === 'production';
-const allowedOrigins = isProduction ? ['https://therasuite.onrender.com'] ['http://localhost:5000', 'http://localhost:3000'];
+const allowedOrigins = isProduction ? ['https://therasuite.onrender.com'] : ['http://localhost:5000', 'http://localhost:3000'];
 
 const corsOptions = {
     origin: allowedOrigins,
